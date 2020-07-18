@@ -5,7 +5,7 @@ Expirable items allow you to do stuff with items and set a timeout to do somethi
 ## Simple usage ideas
 
 ```typescript
-import { Expirable } from "../dist";
+import { Expirable } from "expirable-item";
 
 console.log("Making expirable...");
 let e = new Expirable<number>(13, 5000);
