@@ -3,7 +3,7 @@
 Expirable items allow you to do stuff with items and set a timeout to do something after the timeout expires.
 This is written in TypeScript and uses native Promises. 
 
-## Simple usage ideas
+## Examples
 
 ### Basic usage
 
@@ -47,6 +47,11 @@ Expire time changing for e
 e expire new time: Sat Jul 18 2020 16:18:15 GMT-0400 (Eastern Daylight Time)
 e has expired: Stringy strings
 ```
+
+## Usage ideas
+- Refreshing items after a certain amount of time
+- Removing items after a certain amount of time
+- Dynamically changing a timeout for an item
 
 ## Inspiration
 
