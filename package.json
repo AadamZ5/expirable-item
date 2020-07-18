@@ -4,7 +4,7 @@
   "description": "Expirable items for when you must do something to an item after a certain amount of time",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "prepare": "npm run build"
@@ -17,9 +17,19 @@
   ],
   "author": "Aadam Zocolo",
   "license": "MIT",
-  "repository": {"url": "https://github.com/AadamZ5/expirable-item"},
+  "repository": {
+    "url": "https://github.com/AadamZ5/expirable-item"
+  },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^14.0.23"
+    "@types/chai": "^4.2.11",
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.23",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "ts-mocha": "^7.0.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   }
 }
