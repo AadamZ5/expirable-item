@@ -50,3 +50,5 @@ e has expired: Stringy strings
 ## Inspiration
 
 This package was really created to just help focus on a functionality idea I had instead of making it a non-removable part of a larger project. This idea seemed generic enough to be usable elsewhere.
+
+It's important to note that this library doesn't offer a bunch of over complicated features. You could probably make the exact same thing in little time, or even argue that this library isn't necessary. I wouldn't disagree, but I would argue that it is convenient to have. I didn't have anything that specifically fit my needs, so I made this and decided to make it a small package.
