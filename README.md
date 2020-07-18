@@ -1,6 +1,7 @@
 # expirable-item
 
 Expirable items allow you to do stuff with items and set a timeout to do something after the timeout expires.
+This is written in TypeScript and uses native Promises. 
 
 ## Simple usage ideas
 
