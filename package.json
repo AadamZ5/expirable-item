@@ -1,0 +1,25 @@
+{
+  "name": "expirable-item",
+  "version": "1.0.0",
+  "description": "Expirable items for when you must do something to an item after a certain amount of time",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install && tsc",
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "expire",
+    "expirable",
+    "item",
+    "value"
+  ],
+  "author": "Aadam Zocolo",
+  "license": "MIT",
+  "repository": {"url": "https://github.com/AadamZ5/expirable-item"},
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.23"
+  }
+}
