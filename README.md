@@ -1,8 +1,9 @@
 # expirable-item
 
 Expirable items allow you to do stuff with items and set a timeout to do something after the timeout expires.
+This is written in TypeScript and uses native Promises. 
 
-## Simple usage ideas
+## Examples
 
 ### Basic usage
 
@@ -34,7 +35,7 @@ e.expire.then((s) => {// Don't have to "re-then" to the promise if you change ex
 
 setTimeout(() => {
     console.log("Expire time changing for e");
-    e.expire_time = new Date(Date.now() + 2000); //Change expire time to 2 seconds from the moment this line runs, instead of 10 initially
+    e.expire_time = new Date(Date.now() + 2000); //Change expire time to 2 seconds from the moment this line runs, instead of 50 initially
     console.log("e expire new time: " + e.expire_time);
 }, 1000);
 ```
@@ -47,6 +48,13 @@ e expire new time: Sat Jul 18 2020 16:18:15 GMT-0400 (Eastern Daylight Time)
 e has expired: Stringy strings
 ```
 
+## Usage ideas
+- Refreshing items after a certain amount of time
+- Removing items after a certain amount of time
+- Dynamically changing a timeout for an item
+
 ## Inspiration
 
 This package was really created to just help focus on a functionality idea I had instead of making it a non-removable part of a larger project. This idea seemed generic enough to be usable elsewhere.
+
+It's important to note that this library doesn't offer a bunch of over complicated features. You could probably make the exact same thing in little time, or even argue that this library isn't necessary. I wouldn't disagree, but I would argue that it is convenient to have. I didn't have anything that specifically fit my needs, so I made this and decided to make it a small package.
