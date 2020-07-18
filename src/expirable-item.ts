@@ -1,3 +1,19 @@
+import { setFlagsFromString } from "v8";
+
+type PromiseResolveFn<T> = (value: T | PromiseLike<T> | undefined) => void;
+type PromiseRejectFn = (reason?: any) => void;
+
+class ExpireChanged extends Error{
+    old_date?: Date;
+    new_date?: Date;
+
+    constructor(o?: Date, n?: Date){
+        super("The expirable expire time was changed")
+        this.old_date = o;
+        this.new_date = n;
+    }
+}
+
 /**
  * Denotes an expirable object. Useful for wrapping data that you must do something with after a certain amount of time.
  */
@@ -6,32 +22,40 @@ export class Expirable<T> {
     /**When the Expire object was created */
     created: Date;
 
-    private _resolve?: (value: T | PromiseLike<T> | undefined) => void;
-    private _reject?: (reason?: any) => void;
+    private _timeout?: NodeJS.Timeout = undefined;
+    private _resolve?: PromiseResolveFn<T>;
+    private _reject?: PromiseRejectFn;
 
     private _expired: boolean = false;
+    get expired(): boolean {return this._expired;}
 
     private _expire_time: Date | undefined;
     /**When the expire observable will trigger. This property is dynamically settable. */
     get expire_time(): Date | undefined { return this._expire_time; };
     set expire_time(date: Date | undefined) {
 
-        if(this._internal_expire_promise){
-            delete this._internal_expire_promise;
-            this._internal_expire_promise = undefined;
+        //Check for an existing timeout, and cancel it.
+        if(this._timeout){
+            clearTimeout(this._timeout);
         }
-
-        this._expire_time = date;
+        //If no date, we wait forever, or the program terminates. Whichever happens first.
         if (date != undefined) {
-            this._internal_expire_promise = new Promise(async (resolve, reject) => {
-                let date_diff: number = date.valueOf() - (new Date()).valueOf();
-                setTimeout(resolve, date_diff);
-            })
-            this._internal_expire_promise.then((d) => {
-                this._do_expire();
-            })
+            this._wait(date);
         }
     };
+
+    private async _wait(date_future: Date) {
+        //If this object already expired and they decide to still set a new date, we should construct a new promise
+        if(this._expired){
+            this._make_promise();
+        }
+
+        this._expire_time = date_future;
+        let date_diff = date_future.valueOf() - (new Date()).valueOf();
+        this._timeout = setTimeout(() => {
+            this._do_expire();
+        }, date_diff);
+    }
 
 
     private _do_expire() {
@@ -40,12 +64,16 @@ export class Expirable<T> {
             this._resolve(this.data);
             this._resolve = undefined;
             this._reject = undefined;
+            this._timeout = undefined;
         }else{
-            throw "No promise populated! This shouldn't happen!"
+            if(this._reject){
+                this._reject("No resolve function was populated! This shouldn't happen!");
+            }else{
+                throw "No promise populated! This shouldn't happen!"
+            }
         }
     }
 
-    private _internal_expire_promise?: Promise<Date>;
     data: T;
     expire: Promise<T>;
 
@@ -74,7 +102,7 @@ export class Expirable<T> {
         if (expire instanceof Date) {
             this.expire_time = expire;
         }
-        else if (typeof(expire) == 'number' ) {
+        else if (typeof(expire) == 'number') {
             this.expire_time = new Date(Date.now() + expire);
         }
         else {
