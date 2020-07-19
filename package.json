@@ -1,6 +1,6 @@
 {
   "name": "expirable-item",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Expirable items for when you must do something to an item after a certain amount of time",
   "main": "dist/index.js",
   "scripts": {

@@ -1,13 +1,11 @@
 # expirable-item
 
 Expirable items allow you to do stuff with items and set a timeout to do something after the timeout expires.
-This is written in TypeScript and uses native Promises. 
+This is written in TypeScript and uses native Promises.
 
 ## Install
 
-This isn't listed on npm registry yet because I'm not sure I am ready to do that. Nonetheless, you can still install it with current versions of npm.
-
-`npm i AadamZ5/expirable-item#master`
+`npm i expirable-item`
 
 ## Examples
 
