@@ -2,17 +2,6 @@
 type PromiseResolveFn<T> = (value: T | PromiseLike<T> | undefined) => void;
 type PromiseRejectFn = (reason?: any) => void;
 
-class ExpireChanged extends Error{
-    old_date?: Date;
-    new_date?: Date;
-
-    constructor(o?: Date, n?: Date){
-        super("The expirable expire time was changed")
-        this.old_date = o;
-        this.new_date = n;
-    }
-}
-
 /**
  * Denotes an expirable object. Useful for wrapping data that you must do something with after a certain amount of time.
  */
@@ -28,10 +17,15 @@ export class Expirable<T> {
     get expired(): boolean {return this._expired;}
 
     private _expire_time: Date | undefined;
-    /**When the expire observable will trigger. This property is dynamically settable. */
+    /**When the expire promise will trigger. This property is dynamically settable. */
     get expire_time(): Date | undefined { return this._expire_time; };
     set expire_time(date: Date | undefined) {
 
+        //If this object already expired and they decide to still set a new date, we should construct a new promise
+        if(this._expired){
+            this._make_promise();
+            this._expired = false;
+        }
         //Check for an existing timeout, and cancel it.
         if(this._timeout){
             clearTimeout(this._timeout);
@@ -62,10 +56,6 @@ export class Expirable<T> {
 
     private async _wait(date_future: Date) {
 
-        //If this object already expired and they decide to still set a new date, we should construct a new promise
-        if(this._expired){
-            this._make_promise();
-        }
         let date_now = new Date();
         let date_diff = date_future.valueOf() - date_now.valueOf();
         this._timeout = setTimeout(() => {
