@@ -38,20 +38,41 @@ describe('Expirable time-checks', () => {
         }
     });
 
-    it('should not last longer than 505ms milliseconds when timeout is modified to last 300ms + 200ms', async () => {
+    it('should not last longer than 505ms when timeout is modified to last 300ms + 200ms', async () => {
         let timer: NodeJS.Timeout|undefined = undefined
         let tcpromise = new Promise<number>((res, rej) => {
             timer = setTimeout(resolve, 5000);
         });
         let start_date = new Date()
-        let e = new Expirable<boolean>(true, 4000);
+        let e = new Expirable<boolean>(false, 1000);
         setTimeout(() => {
+            e.data = true;
             e.expire_time = new Date(Date.now() + 300);
         }, 200);
         let r = await Promise.race([tcpromise, e.expire]);
         let end_date = new Date();
         expect(r).to.equal(true);
         expect(end_date.valueOf() - start_date.valueOf()).to.lessThan(505);
+        if(timer){
+            clearTimeout(timer);
+        }
+    });
+
+    it('should not last longer than 55ms when timeout is modified to last 30ms + 20ms', async () => {
+        let timer: NodeJS.Timeout|undefined = undefined
+        let tcpromise = new Promise<number>((res, rej) => {
+            timer = setTimeout(resolve, 5000);
+        });
+        let start_date = new Date()
+        let e = new Expirable<boolean>(false, 1000);
+        setTimeout(() => {
+            e.data = true;
+            e.set_expire_time(30);
+        }, 20);
+        let r = await Promise.race([tcpromise, e.expire]);
+        let end_date = new Date();
+        expect(r).to.equal(true);
+        expect(end_date.valueOf() - start_date.valueOf()).to.lessThan(55);
         if(timer){
             clearTimeout(timer);
         }

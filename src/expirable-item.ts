@@ -44,6 +44,22 @@ export class Expirable<T> {
         }
     };
 
+    /**
+     * Sets the expire time with a time delta or a specific date
+     * @param time The time delta **or** the date to expire
+     */
+    public set_expire_time(time: Date | number | undefined){
+        if (time instanceof Date) {
+            this.expire_time = time;
+        }
+        else if (typeof(time) == 'number') {
+            this.expire_time = new Date(Date.now() + time);
+        }
+        else {
+            this.expire_time = undefined;
+        }
+    }
+
     private async _wait(date_future: Date) {
 
         //If this object already expired and they decide to still set a new date, we should construct a new promise
@@ -104,15 +120,7 @@ export class Expirable<T> {
         this._make_promise();
         this.created = created ? created : new Date();
         this.data = data;
-        if (expire instanceof Date) {
-            this.expire_time = expire;
-        }
-        else if (typeof(expire) == 'number') {
-            this.expire_time = new Date(Date.now() + expire);
-        }
-        else {
-            this.expire_time = undefined;
-        }
+        this.set_expire_time(expire);
     }
 
     private _make_promise(){
