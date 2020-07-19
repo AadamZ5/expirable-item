@@ -1,2 +1,5 @@
 src
 test
+.github
+.vscode
+.gitignore
