@@ -58,7 +58,6 @@ e has expired: Stringy strings
 ### Restarting expired item
 
 ```typescript
-import {Expirable} from "./dist/index.js";
 async function example(){
     let e = new Expirable<string>("Stringy strings", 1000); //Expire time is 1 second
 
