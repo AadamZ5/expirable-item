@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Expirable items for when you must do something to an item after a certain amount of time",
   "main": "dist/index.js",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "scripts": {
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "build": "tsc",
