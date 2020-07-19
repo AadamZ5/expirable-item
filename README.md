@@ -42,6 +42,7 @@ e.expire.then((s) => {// Don't have to "re-then" to the promise if you change ex
 setTimeout(() => {
     console.log("Expire time changing for e");
     e.expire_time = new Date(Date.now() + 2000); //Change expire time to 2 seconds from the moment this line runs, instead of 50 initially
+    //e.set_expire_time(2000); //This will do the same thing as above, but this function recognizes Date and number types.
     console.log("e expire new time: " + e.expire_time);
 }, 1000);
 ```
