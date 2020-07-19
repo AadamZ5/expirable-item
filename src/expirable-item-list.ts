@@ -1,6 +1,6 @@
 import { Expirable } from "./expirable-item";
 
-class ExpirableItemList<T> implements AsyncGenerator<T>{
+class ExpirableList<T> implements AsyncGenerator<T>{
 
     private _items: Expirable<T>[];
 

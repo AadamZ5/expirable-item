@@ -35,7 +35,7 @@ The number 13 has expired!
 let e = new Expirable<string>("Stringy strings", 50000); //Expire time is 50 seconds
 console.log("e expire time: " + e.expire_time);
 
-e.expire.then((s) => {// Don't have to "re-then" to the promise if you change expire time
+e.expire.then((s) => {// Don't have to "re-then" to the promise if you change expire time before it expires
     console.log("e has expired: " + s);
 });
 
@@ -55,7 +55,33 @@ e expire new time: Sat Jul 18 2020 16:18:15 GMT-0400 (Eastern Daylight Time)
 e has expired: Stringy strings
 ```
 
+### Restarting expired item
+
+```typescript
+import {Expirable} from "./dist/index.js";
+async function example(){
+    let e = new Expirable<string>("Stringy strings", 1000); //Expire time is 1 second
+
+    let s = await e.expire;
+    console.log("e has expired: " + s);
+    e.set_expire_time(1000); //Reset expire time to 1 second
+
+    s = await e.expire; //You must "re-await" or "re-then" the expire promise, as a new one is created after the Expirable has initially expired.
+                        //Promises by design can only return one value. If you're looking for a way around this, check out `expirable-item-rxjs`.
+    console.log("e has expired again: " + s);
+}
+
+example();
+```
+
+Output:
+```
+e has expired: Stringy strings
+e has expired again: Stringy strings
+```
+
 ## Usage ideas
+
 - Refreshing items after a certain amount of time
 - Removing items after a certain amount of time
 - Dynamically changing a timeout for an item
