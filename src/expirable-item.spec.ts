@@ -23,7 +23,7 @@ describe('Expirable functionality', () => {
         let e = new Expirable<string>("Stringy strings", 10);
 
         let s = await e.expire;
-        e.expire_time = new Date(Date.now() + 10);
+        e.set_expire_time(10);
 
         s = await e.expire; //You must await or "re-then" the expire promise, as a new one is created after the Expirable has initially expired.
         expect(s).to.equal("Stringy strings");
