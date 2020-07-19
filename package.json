@@ -18,9 +18,7 @@
   ],
   "author": "Aadam Zocolo",
   "license": "MIT",
-  "repository": {
-    "url": "https://github.com/AadamZ5/expirable-item"
-  },
+  "repository": "git@github.com:AadamZ5/expirable-item.git",
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.2.11",
